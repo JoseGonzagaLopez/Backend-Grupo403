@@ -1,16 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsString } from 'class-validator';
+import { IsInt, IsNumber, IsString } from 'class-validator';
 
 export class CreatePagoDto {
-  @ApiProperty({ example: 'Juan Perez' })
-  @IsString()
-  Cliente: string;
+  @ApiProperty({ example: 1, description: 'ID del cliente (FK a tabla Clientes)' })
+  @IsInt()
+  customerId: number;
 
-  @ApiProperty({ example: 'Tienda Central' })
-  @IsString()
-  Comercio: string;
+  @ApiProperty({ example: 1, description: 'ID del negocio (FK a tabla Negocios)' })
+  @IsInt()
+  businessId: number;
 
-  @ApiProperty({ example: 150.50 })
+  @ApiProperty({ example: 50.5 })
   @IsNumber()
   Importe: number;
 

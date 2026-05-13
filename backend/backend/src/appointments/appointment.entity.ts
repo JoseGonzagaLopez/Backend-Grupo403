@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Negocios } from '../negocios/negocios.entity';
+import { Clientes } from '../clientes/clientes.entity';
 
 export enum AppointmentStatus {
   PENDING = 'pending',
@@ -17,10 +19,7 @@ export class Appointment {
   @Column()
   time: string;
 
-  @Column({
-    type: 'text',
-    default: AppointmentStatus.PENDING,
-  })
+  @Column({ type: 'text', default: AppointmentStatus.PENDING })
   status: AppointmentStatus;
 
   @Column()
@@ -31,4 +30,12 @@ export class Appointment {
 
   @Column()
   serviceName: string;
+
+  @ManyToOne(() => Clientes)
+  @JoinColumn({ name: 'customerId' })
+  cliente: Clientes;
+
+  @ManyToOne(() => Negocios)
+  @JoinColumn({ name: 'businessId' })
+  negocio: Negocios;
 }

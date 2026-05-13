@@ -1,17 +1,18 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Negocios } from '../negocios/negocios.entity';
+import { Clientes } from '../clientes/clientes.entity';
 
-@Entity('Pagos') // Usamos el nombre exacto de tu tabla
+@Entity('Pagos')
 export class Pago {
   @PrimaryGeneratedColumn()
   ID: number;
 
-  @Column({ type: 'text' })
-  Cliente: string;
+  @Column()
+  customerId: number;
 
-  @Column({ type: 'text' })
-  Comercio: string;
+  @Column()
+  businessId: number;
 
-  // TypeORM maneja números con decimales. 'decimal' o 'real' simulan el tipo Money en SQLite
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   Importe: number;
 
@@ -23,4 +24,12 @@ export class Pago {
 
   @Column({ type: 'text' })
   Estado: string;
+
+  @ManyToOne(() => Clientes)
+  @JoinColumn({ name: 'customerId' })
+  cliente: Clientes;
+
+  @ManyToOne(() => Negocios)
+  @JoinColumn({ name: 'businessId' })
+  negocio: Negocios;
 }

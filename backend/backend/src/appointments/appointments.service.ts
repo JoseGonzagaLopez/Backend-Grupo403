@@ -14,12 +14,16 @@ export class AppointmentsService {
 
   findAll() {
     return this.appointmentsRepository.find({
+      relations: ['cliente', 'negocio'], // Carga los datos relacionados
       order: { date: 'ASC', time: 'ASC' },
     });
   }
 
   findOne(id: number) {
-    return this.appointmentsRepository.findOneBy({ id });
+    return this.appointmentsRepository.findOne({
+      where: { id },
+      relations: ['cliente', 'negocio'],
+    });
   }
 
   create(createAppointmentDto: CreateAppointmentDto) {
@@ -34,11 +38,7 @@ export class AppointmentsService {
       throw new NotFoundException(`No existe la reserva con id ${id}`);
     }
 
-    const updatedAppointment = this.appointmentsRepository.merge(
-      appointment,
-      updateAppointmentDto,
-    );
-
+    const updatedAppointment = this.appointmentsRepository.merge(appointment, updateAppointmentDto);
     return this.appointmentsRepository.save(updatedAppointment);
   }
 
@@ -50,7 +50,6 @@ export class AppointmentsService {
     }
 
     await this.appointmentsRepository.remove(appointment);
-
     return { message: `Reserva ${id} eliminada correctamente` };
   }
 }

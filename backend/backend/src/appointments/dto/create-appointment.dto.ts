@@ -11,18 +11,15 @@ export class CreateAppointmentDto {
   @IsString()
   time: string;
 
-  @ApiProperty({
-    enum: AppointmentStatus,
-    example: AppointmentStatus.PENDING,
-  })
+  @ApiProperty({ enum: AppointmentStatus, example: AppointmentStatus.PENDING })
   @IsEnum(AppointmentStatus)
   status: AppointmentStatus;
 
-  @ApiProperty({ example: 1 })
+  @ApiProperty({ example: 1, description: 'ID del cliente (FK a tabla Clientes)' })
   @IsInt()
   customerId: number;
 
-  @ApiProperty({ example: 1 })
+  @ApiProperty({ example: 1, description: 'ID del negocio (FK a tabla Negocios)' })
   @IsInt()
   businessId: number;
 

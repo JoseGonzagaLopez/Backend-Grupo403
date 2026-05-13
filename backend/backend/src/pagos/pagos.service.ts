@@ -14,12 +14,16 @@ export class PagosService {
 
   findAll() {
     return this.pagosRepository.find({
-      order: { Fecha: 'DESC' }, // Ordena por los más recientes
+      relations: ['cliente', 'negocio'], // Carga los datos relacionados
+      order: { Fecha: 'DESC' },
     });
   }
 
   findOne(id: number) {
-    return this.pagosRepository.findOneBy({ ID: id });
+    return this.pagosRepository.findOne({
+      where: { ID: id },
+      relations: ['cliente', 'negocio'],
+    });
   }
 
   create(createPagoDto: CreatePagoDto) {
