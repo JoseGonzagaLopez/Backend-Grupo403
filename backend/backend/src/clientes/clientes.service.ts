@@ -10,11 +10,12 @@ export class ClientesService {
   constructor(
     @InjectRepository(Clientes)
     private readonly clientesRepository: Repository<Clientes>,
-  ) {}
+  ) { }
 
   findAll() {
     return this.clientesRepository.find({
       order: { id: 'ASC' },
+      relations: ['appointments', 'appointments.negocio'],
     });
   }
 
