@@ -31,6 +31,9 @@ export class Appointment {
   @Column()
   serviceName: string;
 
+  @Column({ type: 'real', default: 0 })
+  importe: number;
+
   @ManyToOne(() => Clientes)
   @JoinColumn({ name: 'customerId' })
   cliente: Clientes;
