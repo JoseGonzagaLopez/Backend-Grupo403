@@ -14,6 +14,9 @@ export class Negocios {
   @Column({ type: 'text', nullable: true })
   Telefono?: string;
 
+  @Column({ type: 'text', nullable: true, unique: true })
+  Correo?: string;
+
   @Column({ type: 'text', nullable: true })
   password?: string;
 

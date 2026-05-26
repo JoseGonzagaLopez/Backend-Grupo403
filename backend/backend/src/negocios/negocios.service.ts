@@ -21,17 +21,17 @@ export class NegociosService {
   }
 
   async register(dto: CreateNegociosDto): Promise<Negocios> {
-    if (dto.Telefono) {
-      const existing = await this.negociosRepository.findOneBy({ Telefono: dto.Telefono });
-      if (existing) throw new ConflictException('Ya existe un negocio con ese teléfono.');
+    if (dto.Correo) {
+      const existing = await this.negociosRepository.findOneBy({ Correo: dto.Correo });
+      if (existing) throw new ConflictException('Ya existe un negocio con ese correo.');
     }
     const negocio = this.negociosRepository.create(dto);
     return this.negociosRepository.save(negocio);
   }
 
-  async login(Telefono: string, password: string): Promise<Negocios> {
-    const negocio = await this.negociosRepository.findOneBy({ Telefono });
-    if (!negocio) throw new UnauthorizedException('No existe un negocio con ese teléfono.');
+  async login(Correo: string, password: string): Promise<Negocios> {
+    const negocio = await this.negociosRepository.findOneBy({ Correo });
+    if (!negocio) throw new UnauthorizedException('No existe un negocio con ese correo.');
     if (negocio.password !== password) throw new UnauthorizedException('Contraseña incorrecta.');
     return negocio;
   }

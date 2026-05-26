@@ -3,10 +3,10 @@ import { NegociosService } from './negocios.service';
 import { CreateNegociosDto } from './dto/create-negocios.dto';
 import { UpdateNegociosDto } from './dto/update-negocios.dto';
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { IsString, IsNotEmpty } from 'class-validator';
+import { IsString, IsNotEmpty, IsEmail } from 'class-validator';
 
 class LoginNegocioDto {
-  @IsString() @IsNotEmpty() Telefono: string;
+  @IsEmail() Correo: string;
   @IsString() @IsNotEmpty() password: string;
 }
 
@@ -25,7 +25,7 @@ export class NegociosController {
   @HttpCode(200)
   @ApiOkResponse({ description: 'Login de negocio' })
   login(@Body() body: LoginNegocioDto) {
-    return this.negociosService.login(body.Telefono, body.password);
+    return this.negociosService.login(body.Correo, body.password);
   }
 
   @Post()
