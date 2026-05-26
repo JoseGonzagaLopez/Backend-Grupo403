@@ -16,4 +16,9 @@ export class CreateNegociosDto {
   @IsOptional()
   @IsString()
   Telefono?: string;
+
+  @ApiProperty({ example: 'miContrasena123' })
+  @IsString()
+  @IsNotEmpty()
+  password: string;
 }
