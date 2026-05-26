@@ -19,7 +19,7 @@ export class CreateNegociosDto {
 
   @ApiProperty({ example: 'negocio@ejemplo.com', required: false })
   @IsOptional()
-  @IsEmail()
+  @IsEmail({}, { message: 'Debe ser un correo válido' })
   Correo?: string;
 
   @ApiProperty({ example: 'miContrasena123', required: false })

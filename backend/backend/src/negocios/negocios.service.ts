@@ -4,12 +4,15 @@ import { Repository } from 'typeorm';
 import { Negocios } from './negocios.entity';
 import { CreateNegociosDto } from './dto/create-negocios.dto';
 import { UpdateNegociosDto } from './dto/update-negocios.dto';
+import { SolicitudesPerfil } from '../solicitudes-perfil/solicitudes-perfil.entity';
 
 @Injectable()
 export class NegociosService {
   constructor(
     @InjectRepository(Negocios)
     private readonly negociosRepository: Repository<Negocios>,
+    @InjectRepository(SolicitudesPerfil)
+    private readonly solicitudesPerfilRepository: Repository<SolicitudesPerfil>,
   ) {}
 
   findAll() {
@@ -20,13 +23,20 @@ export class NegociosService {
     return this.negociosRepository.findOneBy({ id });
   }
 
-  async register(dto: CreateNegociosDto): Promise<Negocios> {
+  async register(dto: CreateNegociosDto): Promise<{ message: string }> {
     if (dto.Correo) {
       const existing = await this.negociosRepository.findOneBy({ Correo: dto.Correo });
       if (existing) throw new ConflictException('Ya existe un negocio con ese correo.');
     }
-    const negocio = this.negociosRepository.create(dto);
-    return this.negociosRepository.save(negocio);
+
+    const solicitud = this.solicitudesPerfilRepository.create({
+      businessId: null,
+      cambiosJson: JSON.stringify(dto),
+      estado: 'pending',
+    });
+    await this.solicitudesPerfilRepository.save(solicitud);
+
+    return { message: 'Solicitud de registro recibida y pendiente de aprobación.' };
   }
 
   async login(Correo: string, password: string): Promise<Negocios> {

@@ -5,8 +5,8 @@ export class SolicitudesPerfil {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'int' })
-  businessId: number;
+  @Column({ type: 'int', nullable: true })
+  businessId: number | null;
 
   @Column({ type: 'text' })
   cambiosJson: string; // JSON.stringify del objeto de cambios

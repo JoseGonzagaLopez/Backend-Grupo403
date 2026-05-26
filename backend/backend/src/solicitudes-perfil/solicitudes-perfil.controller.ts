@@ -21,7 +21,16 @@ export class SolicitudesPerfilController {
   @Get('solicitudes-perfil')
   @ApiOkResponse({ description: 'Listado de solicitudes de perfil' })
   findAll(@Query('estado') estado?: string) {
-    return this.service.findAll(estado);
+    // Devolver los registros con el objeto `cambios` ya parseado para que el frontend lo reciba
+    return this.service.findAll(estado).then(list =>
+      list.map(s => ({
+        id: s.id,
+        businessId: s.businessId,
+        cambios: s.cambios,
+        estado: s.estado,
+        createdAt: s.createdAt,
+      })),
+    );
   }
 
   // PATCH /solicitudes-perfil/:id/aprobar  (admin aprueba)

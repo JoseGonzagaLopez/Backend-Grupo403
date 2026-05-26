@@ -12,7 +12,7 @@ export class SolicitudesPerfilService {
     private readonly negociosService: NegociosService,
   ) {}
 
-  async create(businessId: number, cambios: Record<string, any>): Promise<SolicitudesPerfil> {
+  async create(businessId: number | null, cambios: Record<string, any>): Promise<SolicitudesPerfil> {
     const sol = this.repo.create({
       businessId,
       cambiosJson: JSON.stringify(cambios),
@@ -29,8 +29,14 @@ export class SolicitudesPerfilService {
   async aprobar(id: number): Promise<SolicitudesPerfil> {
     const sol = await this.repo.findOneBy({ id });
     if (!sol) throw new NotFoundException('Solicitud no encontrada');
-    // Aplicar los cambios al negocio
-    await this.negociosService.update(sol.businessId, sol.cambios);
+
+    if (sol.businessId == null) {
+      const newBusiness = await this.negociosService.create(sol.cambios as any);
+      sol.businessId = newBusiness.id;
+    } else {
+      await this.negociosService.update(sol.businessId, sol.cambios);
+    }
+
     sol.estado = 'approved';
     return this.repo.save(sol);
   }
