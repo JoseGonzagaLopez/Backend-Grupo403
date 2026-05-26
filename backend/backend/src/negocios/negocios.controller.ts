@@ -1,13 +1,32 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, HttpCode } from '@nestjs/common';
 import { NegociosService } from './negocios.service';
 import { CreateNegociosDto } from './dto/create-negocios.dto';
 import { UpdateNegociosDto } from './dto/update-negocios.dto';
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { IsString, IsNotEmpty } from 'class-validator';
+
+class LoginNegocioDto {
+  @IsString() @IsNotEmpty() Telefono: string;
+  @IsString() @IsNotEmpty() password: string;
+}
 
 @ApiTags('negocios')
 @Controller('negocios')
 export class NegociosController {
   constructor(private readonly negociosService: NegociosService) {}
+
+  @Post('register')
+  @ApiCreatedResponse({ description: 'Negocio registrado' })
+  register(@Body() createNegociosDto: CreateNegociosDto) {
+    return this.negociosService.register(createNegociosDto);
+  }
+
+  @Post('login')
+  @HttpCode(200)
+  @ApiOkResponse({ description: 'Login de negocio' })
+  login(@Body() body: LoginNegocioDto) {
+    return this.negociosService.login(body.Telefono, body.password);
+  }
 
   @Post()
   @ApiCreatedResponse({ description: 'Negocio creado' })

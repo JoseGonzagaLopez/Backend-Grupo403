@@ -13,4 +13,19 @@ export class Negocios {
 
   @Column({ type: 'text', nullable: true })
   Telefono?: string;
+
+  @Column({ type: 'text', nullable: true })
+  password?: string;
+
+  @Column({ type: 'text', nullable: true })
+  descripcion?: string;
+
+  @Column({ type: 'text', nullable: true })
+  tipoNegocio?: string;
+
+  @Column({ type: 'text', nullable: true })
+  fotoUrl?: string;
+
+  @Column({ type: 'text', nullable: true })
+  bannerUrl?: string;
 }

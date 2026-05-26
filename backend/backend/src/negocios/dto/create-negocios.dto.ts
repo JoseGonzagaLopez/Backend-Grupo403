@@ -16,4 +16,29 @@ export class CreateNegociosDto {
   @IsOptional()
   @IsString()
   Telefono?: string;
+
+  @ApiProperty({ example: 'miContrasena123', required: false })
+  @IsOptional()
+  @IsString()
+  password?: string;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
+  descripcion?: string;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
+  tipoNegocio?: string;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
+  fotoUrl?: string;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
+  bannerUrl?: string;
 }
