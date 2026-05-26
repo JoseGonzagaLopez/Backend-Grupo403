@@ -7,4 +7,13 @@ export class Negocios {
 
   @Column({ type: 'text', nullable: false })
   Nombre: string;
+
+  @Column({ type: 'text', nullable: true })
+  Localicacion?: string;
+
+  @Column({ type: 'text', nullable: true })
+  Telefono?: string;
+
+  @Column({ type: 'text', nullable: true, select: false })
+  password?: string;
 }
