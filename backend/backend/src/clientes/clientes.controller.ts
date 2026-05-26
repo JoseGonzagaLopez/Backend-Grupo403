@@ -9,6 +9,18 @@ import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 export class ClientesController {
   constructor(private readonly clientesService: ClientesService) {}
 
+  @Post('register')
+  @ApiCreatedResponse({ description: 'Cliente registrado' })
+  register(@Body() createClientesDto: CreateClientesDto) {
+    return this.clientesService.register(createClientesDto);
+  }
+
+  @Post('login')
+  @ApiOkResponse({ description: 'Login de cliente' })
+  login(@Body() body: { Correo: string; password?: string }) {
+    return this.clientesService.login(body.Correo, body.password || '');
+  }
+
   @Post()
   @ApiCreatedResponse({ description: 'Cliente creado' })
   create(@Body() createClientesDto: CreateClientesDto) {

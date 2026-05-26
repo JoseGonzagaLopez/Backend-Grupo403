@@ -15,6 +15,9 @@ export class Clientes {
   @Column({ type: 'text', nullable: false })
   Correo: string;
 
+  @Column({ type: 'text', nullable: true })
+  password?: string;
+
   @OneToMany(() => Appointment, (appointment) => appointment.cliente)
   appointments: Appointment[];
 }

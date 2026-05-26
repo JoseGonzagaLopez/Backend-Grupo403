@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsString, Matches, IsNotEmpty } from 'class-validator';
+import { IsEmail, IsString, Matches, IsNotEmpty, IsOptional } from 'class-validator';
 
 export class CreateClientesDto {
   @ApiProperty({ example: 'Juan Pérez' })
@@ -17,4 +17,9 @@ export class CreateClientesDto {
   @IsEmail({}, { message: 'Debe ser un correo válido' })
   @IsNotEmpty()
   Correo: string;
+
+  @ApiProperty({ example: 'password123', required: false })
+  @IsString()
+  @IsOptional()
+  password?: string;
 }
