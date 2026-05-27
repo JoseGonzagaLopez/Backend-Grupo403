@@ -1,9 +1,12 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppointmentsModule } from './appointments/appointments.module';
-import { PagosModule } from './pagos/pagos.module'; 
-import {ClientesModule} from './clientes/clientes.module';
-import{NegociosModule} from './negocios/negocios.module';
+import { PagosModule } from './pagos/pagos.module';
+import { ClientesModule } from './clientes/clientes.module';
+import { NegociosModule } from './negocios/negocios.module';
+import { ServiciosModule } from './servicios/servicios.module';
+import { SolicitudesPerfilModule } from './solicitudes-perfil/solicitudes-perfil.module';
+import { ResenasModule } from './resenas/resenas.module';
 
 @Module({
   imports: [
@@ -14,9 +17,12 @@ import{NegociosModule} from './negocios/negocios.module';
       synchronize: true,
     }),
     AppointmentsModule,
-    PagosModule, 
+    PagosModule,
     ClientesModule,
     NegociosModule,
+    ServiciosModule,
+    SolicitudesPerfilModule,
+    ResenasModule,
   ],
 })
 export class AppModule {}
