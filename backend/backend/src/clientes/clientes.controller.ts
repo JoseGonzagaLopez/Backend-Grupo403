@@ -15,10 +15,16 @@ export class ClientesController {
     return this.clientesService.register(createClientesDto);
   }
 
+  /**
+   * Login unificado: acepta { identifier, password } donde identifier
+   * puede ser el correo electrónico O el username del cliente.
+   * También sigue aceptando { Correo, password } por retrocompatibilidad.
+   */
   @Post('login')
   @ApiOkResponse({ description: 'Login de cliente' })
-  login(@Body() body: { Correo: string; password?: string }) {
-    return this.clientesService.login(body.Correo, body.password || '');
+  login(@Body() body: { identifier?: string; Correo?: string; password?: string }) {
+    const id = body.identifier || body.Correo || '';
+    return this.clientesService.login(id, body.password || '');
   }
 
   @Post()
