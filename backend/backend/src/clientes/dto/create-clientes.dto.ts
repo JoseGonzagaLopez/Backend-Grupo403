@@ -18,6 +18,11 @@ export class CreateClientesDto {
   @IsNotEmpty()
   Correo: string;
 
+  @ApiProperty({ example: 'juanperez', required: false })
+  @IsString()
+  @IsOptional()
+  username?: string;
+
   @ApiProperty({ example: 'password123', required: false })
   @IsString()
   @IsOptional()

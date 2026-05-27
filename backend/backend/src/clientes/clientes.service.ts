@@ -11,7 +11,7 @@ export class ClientesService {
   constructor(
     @InjectRepository(Clientes)
     private readonly clientesRepository: Repository<Clientes>,
-  ) { }
+  ) {}
 
   findAll() {
     return this.clientesRepository.find({
@@ -42,20 +42,27 @@ export class ClientesService {
     if (existing) {
       if (!existing.password && createClientesDto.password) {
         existing.password = createClientesDto.password;
+        if (createClientesDto.username) existing.username = createClientesDto.username;
         return this.clientesRepository.save(existing);
       }
-      throw new Error('El correo ya est\u00e1 registrado');
+      throw new Error('El correo ya está registrado');
     }
     const cliente = this.clientesRepository.create(createClientesDto);
     return this.clientesRepository.save(cliente);
   }
 
-  async login(correo: string, pass: string) {
-    const cliente = await this.clientesRepository.findOneBy({ Correo: correo });
+  // Login por correo O username
+  async login(identifier: string, pass: string) {
+    const cliente = await this.clientesRepository.findOne({
+      where: [
+        { Correo: identifier },
+        { username: identifier },
+      ],
+    });
     if (!cliente) throw new NotFoundException('Cliente no encontrado');
-    if (!cliente.password) throw new NotFoundException('El cliente no tiene contrase\u00f1a configurada');
+    if (!cliente.password) throw new NotFoundException('El cliente no tiene contraseña configurada');
     const isMatch = await bcrypt.compare(pass, cliente.password);
-    if (!isMatch) throw new NotFoundException('Contrase\u00f1a incorrecta');
+    if (!isMatch) throw new NotFoundException('Contraseña incorrecta');
     const { password, ...result } = cliente;
     return result;
   }
