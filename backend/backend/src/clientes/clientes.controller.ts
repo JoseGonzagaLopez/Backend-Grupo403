@@ -27,6 +27,12 @@ export class ClientesController {
     return this.clientesService.login(id, body.password || '');
   }
 
+  @Post('google-login')
+  @ApiOkResponse({ description: 'Login con Google' })
+  googleLogin(@Body() body: { token: string }) {
+    return this.clientesService.googleLogin(body.token);
+  }
+
   @Post()
   @ApiCreatedResponse({ description: 'Cliente creado' })
   create(@Body() createClientesDto: CreateClientesDto) {
