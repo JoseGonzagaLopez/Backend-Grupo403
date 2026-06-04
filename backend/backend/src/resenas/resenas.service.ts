@@ -8,32 +8,33 @@ import { CreateResenaDto } from './dto/create-resena.dto';
 export class ResenasService {
   constructor(
     @InjectRepository(Resena)
-    private readonly repo: Repository<Resena>,
+    private readonly resenaRepo: Repository<Resena>,
   ) {}
-
-  create(dto: CreateResenaDto): Promise<Resena> {
-    const resena = this.repo.create(dto);
-    return this.repo.save(resena);
-  }
 
   findAll(businessId?: number): Promise<Resena[]> {
     if (businessId) {
-      return this.repo.find({
-        where: { businessId },
-        order: { fecha: 'DESC' },
-      });
+      return this.resenaRepo.find({ where: { businessId } });
     }
-    return this.repo.find({ order: { fecha: 'DESC' } });
+    return this.resenaRepo.find();
   }
 
-  findByAppointment(appointmentId: number): Promise<Resena | null> {
-    return this.repo.findOne({ where: { appointmentId } });
+  findOne(id: number): Promise<Resena> {
+    return this.resenaRepo.findOne({ where: { id } }).then((r) => {
+      if (!r) throw new NotFoundException(`Resena #${id} no encontrada`);
+      return r;
+    });
   }
 
-  async remove(id: number): Promise<{ message: string }> {
-    const resena = await this.repo.findOneBy({ id });
-    if (!resena) throw new NotFoundException('Reseña no encontrada');
-    await this.repo.remove(resena);
-    return { message: 'Reseña eliminada' };
+  async findByAppointment(appointmentId: number): Promise<Resena | null> {
+    return this.resenaRepo.findOne({ where: { appointmentId } }) ?? null;
+  }
+
+  async create(dto: CreateResenaDto): Promise<Resena> {
+    const resena = this.resenaRepo.create(dto);
+    return this.resenaRepo.save(resena);
+  }
+
+  async remove(id: number): Promise<void> {
+    await this.resenaRepo.delete(id);
   }
 }

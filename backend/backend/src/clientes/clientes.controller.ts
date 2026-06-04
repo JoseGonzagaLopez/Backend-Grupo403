@@ -9,6 +9,30 @@ import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 export class ClientesController {
   constructor(private readonly clientesService: ClientesService) {}
 
+  @Post('register')
+  @ApiCreatedResponse({ description: 'Cliente registrado' })
+  register(@Body() createClientesDto: CreateClientesDto) {
+    return this.clientesService.register(createClientesDto);
+  }
+
+  /**
+   * Login unificado: acepta { identifier, password } donde identifier
+   * puede ser el correo electrónico O el username del cliente.
+   * También sigue aceptando { Correo, password } por retrocompatibilidad.
+   */
+  @Post('login')
+  @ApiOkResponse({ description: 'Login de cliente' })
+  login(@Body() body: { identifier?: string; Correo?: string; password?: string }) {
+    const id = body.identifier || body.Correo || '';
+    return this.clientesService.login(id, body.password || '');
+  }
+
+  @Post('google-login')
+  @ApiOkResponse({ description: 'Login con Google' })
+  googleLogin(@Body() body: { token: string }) {
+    return this.clientesService.googleLogin(body.token);
+  }
+
   @Post()
   @ApiCreatedResponse({ description: 'Cliente creado' })
   create(@Body() createClientesDto: CreateClientesDto) {

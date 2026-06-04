@@ -6,8 +6,8 @@ import { ResenasController } from './resenas.controller';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Resena])],
-  controllers: [ResenasController],
   providers: [ResenasService],
+  controllers: [ResenasController],
   exports: [ResenasService],
 })
 export class ResenasModule {}

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateNegociosDto {
   @ApiProperty({ example: 'Peluquería Estilo' })
@@ -17,8 +17,33 @@ export class CreateNegociosDto {
   @IsString()
   Telefono?: string;
 
-  @ApiProperty({ example: 'secreto123', required: false })
+  @ApiProperty({ example: 'negocio@ejemplo.com', required: false })
+  @IsOptional()
+  @IsEmail({}, { message: 'Debe ser un correo válido' })
+  Correo?: string;
+
+  @ApiProperty({ example: 'miContrasena123', required: false })
   @IsOptional()
   @IsString()
   password?: string;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
+  descripcion?: string;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
+  tipoNegocio?: string;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
+  fotoUrl?: string;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
+  bannerUrl?: string;
 }

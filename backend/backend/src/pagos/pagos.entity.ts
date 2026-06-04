@@ -25,11 +25,11 @@ export class Pago {
   @Column({ type: 'text' })
   Estado: string;
 
-  @ManyToOne(() => Clientes)
+  @ManyToOne(() => Clientes, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'customerId' })
   cliente: Clientes;
 
-  @ManyToOne(() => Negocios)
+  @ManyToOne(() => Negocios, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'businessId' })
   negocio: Negocios;
 }

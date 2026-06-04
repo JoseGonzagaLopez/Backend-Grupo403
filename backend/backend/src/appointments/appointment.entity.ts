@@ -31,11 +31,14 @@ export class Appointment {
   @Column()
   serviceName: string;
 
-  @ManyToOne(() => Clientes)
+  @Column({ type: 'real', default: 0 })
+  importe: number;
+
+  @ManyToOne(() => Clientes, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'customerId' })
   cliente: Clientes;
 
-  @ManyToOne(() => Negocios)
+  @ManyToOne(() => Negocios, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'businessId' })
   negocio: Negocios;
 }

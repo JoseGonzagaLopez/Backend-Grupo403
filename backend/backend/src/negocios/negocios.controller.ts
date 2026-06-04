@@ -4,11 +4,30 @@ import { CreateNegociosDto } from './dto/create-negocios.dto';
 import { UpdateNegociosDto } from './dto/update-negocios.dto';
 import { LoginNegociosDto } from './dto/login-negocios.dto';
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { IsString, IsNotEmpty, IsEmail } from 'class-validator';
+
+class LoginNegocioDto {
+  @IsEmail() Correo: string;
+  @IsString() @IsNotEmpty() password: string;
+}
 
 @ApiTags('negocios')
 @Controller('negocios')
 export class NegociosController {
   constructor(private readonly negociosService: NegociosService) {}
+
+  @Post('register')
+  @ApiCreatedResponse({ description: 'Negocio registrado' })
+  register(@Body() createNegociosDto: CreateNegociosDto) {
+    return this.negociosService.register(createNegociosDto);
+  }
+
+  @Post('login')
+  @HttpCode(200)
+  @ApiOkResponse({ description: 'Login de negocio' })
+  login(@Body() body: LoginNegocioDto) {
+    return this.negociosService.login(body.Correo, body.password);
+  }
 
   @Post()
   @ApiCreatedResponse({ description: 'Negocio creado' })
