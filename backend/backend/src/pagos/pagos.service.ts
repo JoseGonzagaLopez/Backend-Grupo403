@@ -14,7 +14,7 @@ export class PagosService {
 
   findAll() {
     return this.pagosRepository.find({
-      relations: ['cliente', 'negocio'], // Carga los datos relacionados
+      relations: ['cliente', 'negocio', 'servicio', 'reserva'], // Carga los datos relacionados
       order: { Fecha: 'DESC' },
     });
   }
@@ -22,7 +22,7 @@ export class PagosService {
   findOne(id: number) {
     return this.pagosRepository.findOne({
       where: { ID: id },
-      relations: ['cliente', 'negocio'],
+      relations: ['cliente', 'negocio', 'servicio', 'reserva'],
     });
   }
 

@@ -114,7 +114,7 @@ export class SorteosService {
     // o que interactuaron durante el periodo. Por simplicidad, tomamos todos los que han hecho citas con el negocio.
     const appointmentsDelNegocio = await this.appointmentsRepository.find({
       where: { businessId: sorteo.businessId },
-      select: ['customerId', 'date', 'serviceName']
+      select: ['customerId', 'date', 'serviceId']
     });
 
     const pagosDelNegocio = await this.pagosRepository.find({
@@ -143,7 +143,7 @@ export class SorteosService {
       // Calcular interacciones durante
       const citasDurante = appointmentsDelNegocio.filter(a => {
         const enFecha = a.customerId === customerId && a.date >= sorteo.fechaInicio && a.date <= sorteo.fechaFin;
-        const servicioValido = serviciosValidos ? serviciosValidos.includes(a.serviceName) : true; // Idealmente el ID, pero la base usa serviceName en la cita a veces
+        const servicioValido = serviciosValidos ? serviciosValidos.includes(a.serviceId) : true;
         return enFecha && servicioValido;
       }).length;
 

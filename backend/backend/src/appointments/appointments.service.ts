@@ -14,7 +14,7 @@ export class AppointmentsService {
 
   findAll() {
     return this.appointmentsRepository.find({
-      relations: ['cliente', 'negocio'], // Carga los datos relacionados
+      relations: ['cliente', 'negocio', 'servicio'], // Carga los datos relacionados
       order: { date: 'ASC', time: 'ASC' },
     });
   }
@@ -22,7 +22,7 @@ export class AppointmentsService {
   findOne(id: number) {
     return this.appointmentsRepository.findOne({
       where: { id },
-      relations: ['cliente', 'negocio'],
+      relations: ['cliente', 'negocio', 'servicio'],
     });
   }
 

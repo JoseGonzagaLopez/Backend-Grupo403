@@ -1,6 +1,8 @@
 import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { Negocios } from '../negocios/negocios.entity';
 import { Clientes } from '../clientes/clientes.entity';
+import { Servicio } from '../servicios/servicio.entity';
+import { Appointment } from '../appointments/appointment.entity';
 
 @Entity('Pagos')
 export class Pago {
@@ -32,4 +34,18 @@ export class Pago {
   @ManyToOne(() => Negocios, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'businessId' })
   negocio: Negocios;
+
+  @Column({ nullable: true })
+  serviceId: number;
+
+  @Column({ nullable: true })
+  appointmentId: number;
+
+  @ManyToOne(() => Servicio, { onDelete: 'SET NULL', nullable: true })
+  @JoinColumn({ name: 'serviceId' })
+  servicio: Servicio;
+
+  @ManyToOne(() => Appointment, { onDelete: 'SET NULL', nullable: true })
+  @JoinColumn({ name: 'appointmentId' })
+  reserva: Appointment;
 }

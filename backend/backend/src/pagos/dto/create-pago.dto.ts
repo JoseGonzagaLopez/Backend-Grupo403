@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsNumber, IsString } from 'class-validator';
+import { IsInt, IsNumber, IsString, IsOptional } from 'class-validator';
 
 export class CreatePagoDto {
   @ApiProperty({ example: 1, description: 'ID del cliente (FK a tabla Clientes)' })
@@ -25,4 +25,14 @@ export class CreatePagoDto {
   @ApiProperty({ example: 'Completado' })
   @IsString()
   Estado: string;
+
+  @ApiProperty({ example: 1, description: 'ID del servicio asociado', required: false })
+  @IsOptional()
+  @IsInt()
+  serviceId?: number;
+
+  @ApiProperty({ example: 1, description: 'ID de la reserva asociada', required: false })
+  @IsOptional()
+  @IsInt()
+  appointmentId?: number;
 }

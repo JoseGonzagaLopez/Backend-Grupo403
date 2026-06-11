@@ -1,6 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { Negocios } from '../negocios/negocios.entity';
 import { Clientes } from '../clientes/clientes.entity';
+import { Servicio } from '../servicios/servicio.entity';
 
 export enum AppointmentStatus {
   PENDING = 'pending',
@@ -28,8 +29,8 @@ export class Appointment {
   @Column()
   businessId: number;
 
-  @Column()
-  serviceName: string;
+  @Column({ nullable: true })
+  serviceId: number;
 
   @Column({ type: 'real', default: 0 })
   importe: number;
@@ -41,4 +42,8 @@ export class Appointment {
   @ManyToOne(() => Negocios, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'businessId' })
   negocio: Negocios;
+
+  @ManyToOne(() => Servicio, { onDelete: 'SET NULL', nullable: true })
+  @JoinColumn({ name: 'serviceId' })
+  servicio: Servicio;
 }
